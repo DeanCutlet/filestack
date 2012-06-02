@@ -1,0 +1,157 @@
+{% comment %}
+Copyright (C) 2012 Mark West.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+{% endcomment %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<META NAME="Description" CONTENT="SU">
+<META http-equiv="Keywords" CONTENT="SU,superduper">
+
+<title>SU</title>
+
+<link rel="stylesheet" href="/media/fs/css/reset.css">
+<link rel="stylesheet" href="/media/fs/css/960.css">
+<link rel="stylesheet" href="/media/fs/css/main.css">
+<link rel="stylesheet" href="/media/fs/css/lookandfeel.css">
+<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Quattrocento' type='text/css'>
+<link rel="stylesheet" href="/media/fs/js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="/media/fs/js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" >
+$(document).ready(function() {
+{% if dlg_msg and dlg_title %}
+  $("#dlg_title").text("{{dlg_title}}");
+  $("#dlg_msg").html("{{dlg_msg|safe}}");
+  $.fancybox(
+    $('#msg_dialog').html(),
+    {
+      'autoDimensions'	: true,
+      'hideOnOverlayClick' : false,
+      'hideOnContentClick' : false,
+      'transitionIn'		: 'none',
+      'transitionOut'		: 'none'
+    }
+  );
+{% endif %}
+
+  $("#upload_file").click(function(e) {
+    e.preventDefault();
+    $.fancybox(
+      $('#upload_dialog').html(),
+      {
+        'autoDimensions'	: true,
+        'hideOnOverlayClick' : false,
+        'hideOnContentClick' : false,
+        'transitionIn'		: 'none',
+        'transitionOut'		: 'none'
+      }
+    );
+  });
+});
+</script>
+{% block extra_script %}
+{% endblock %}
+</head>
+
+<body>
+<div class="container_12">
+<div class="grid_12 hr_0">
+{% block header %}
+<div class="header bottom_bar">
+<div class="copyright"><em>logged in as: <a href="{% url django.contrib.auth.views.login %}">{{username}}</a></em>
+&nbsp;-&nbsp;<em><a href="{% url django.contrib.auth.views.logout %}">logout</a></em></div>
+<div><h1><a href="{% url su %}">SU</a></h1></div>
+<div class="hr_0">
+<div style="float:right;">UTC: {{ now }}</div>
+Actions: <a href="/">View Site</a> &bull; <a href="#" id="upload_file">Upload a File</a>
+</div>
+</div>
+{% endblock %}
+</div>
+
+<div class="grid_6">
+<div class="grid_6 hr_0 ena">
+<em style="float:right;"><a href="{% url su_new type='page' %}">+new</a></em>Pages:
+<ul class="no_bull top_bar">
+{% for page in pages %}
+<li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
+<div style="float:right;">{% if page.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ page.date_short }}</div>{% endif %} {% if page.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<a href="{% url su_edit slug=page.name %}" id="{{page.name}}">{{page.title}}</a></li>
+{% endfor %}
+</ul>
+</div>
+<div class="grid_6 hr_0 ena">
+<em style="float:right;"><a href="{% url su_new type='post' %}">+new</a></em>Posts:
+<ul class="no_bull top_bar">
+{% for post in posts %}
+<li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
+<div style="float:right;">{% if post.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ post.date_short }}</div>{% endif %} {% if post.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<a href="{% url su_edit slug=post.name %}" id="{{post.name}}">{{post.title}}</a></li>
+{% endfor %}
+</ul>
+</div>
+<div class="grid_6 hr_0 ena">
+Trash:
+<ul class="no_bull top_bar">
+{% for piece in trash %}
+<li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
+<div style="float:right;">{% if piece.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ piece.date_short }}</div>{% endif %} {% if piece.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<a href="{% url su_edit slug=piece.name %}" id="{{piece.name}}">{{piece.title}}</a></li>
+{% endfor %}
+</ul>
+</div>
+</div>
+
+<div class="grid_6 hr_0">
+{% block edit_area %}
+&nbsp;
+{% endblock %}
+</div>
+
+</div>
+
+<div style="display:none;" id="msg_dialog">
+  <div class="dlg_container">
+    <div id="dlg_title">&nbsp;</div>
+    <div id="dlg_msg">&nbsp;</div>
+  </div>
+</div>
+
+<div style="display:none;" id="upload_dialog">
+  <div class="dlg_container">
+    <div id="dlg_title">Upload a file in two simple steps</div>
+    <div id="dlg_msg">
+      <form enctype="multipart/form-data" action="{% url su %}" method="post">
+      {% csrf_token %}
+      <div>
+      <label for="file">1. Choose the file to upload:</label> 
+      {{ upload.file.errors }}
+      {{ upload.file }}
+      </div>
+      <div>
+      <label for="upload_btn">2. Hit the button:</label> 
+      <input type="submit" value="Submit" id="upload_btn"/>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

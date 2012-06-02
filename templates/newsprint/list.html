@@ -1,0 +1,69 @@
+{% extends "newsprint/base.html" %}
+
+{% comment %}
+Copyright (C) 2012 Mark West.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+{% endcomment %}
+
+{% block content %}
+{% if posts|length < 1 %}
+  <span>Nothing to see here...</span> 
+{% else %}
+  {% for post in posts %}
+    <div class="post_title grid_8 ena"><a href="{{post.url}}">{{post.title|upper}}</a>
+      <div class="grid_2 prefix_3 suffix_3 ena">
+        <div class="top_bar hr_0"></div>
+      </div>
+    </div>
+    <div class="post_content grid_8 ena hr_0">{{post.content|safe}}</div>
+    <div class="grid_6 ena prefix_1 suffix_1 hr_0">
+      <div class="context">
+      POSTED <b>&bull;</b> <span class="highlight">{{post.date|upper}}</span>
+      <b>&bull;</b> CATEGORY
+      {% if post.categories|length < 1 %}
+        <b>&bull;</b> <span>none</span> 
+      {% else %}
+        {% for cat in post.categories %}
+        <b>&bull;</b> <a href="{% url category category=cat %}">{{cat|upper}}</a> 
+        {% endfor %}
+      {% endif %}
+      <b>&bull;</b> TAGS
+      {% if post.tags|length < 1 %}
+        <b>&bull;</b> <span>none</span> 
+      {% else %}
+        {% for thetag in post.tags %}
+        <b>&bull;</b> <a href="{% url tag tag=thetag %}">{{thetag|upper}}</a>
+        {% endfor %}
+      {% endif %}
+      </div>
+    </div>
+    <div class="grid_8 hr_1 top_bar ena">
+      <div class="hr_1"></div>
+    </div>
+  {% endfor %}
+{% endif %}
+<div class="post_title grid_3 alpha">
+{% if prev == -1 %}
+<img src="/media/fs/img/left_closed.png"/> prev page
+{% else %}
+{% block prevlink %}<a href="{% url index %}?p={{prev}}">{% endblock prevlink %}<img src="/media/fs/img/left.png"/> prev page</a>
+{% endif %}</div>
+<div class="post_title grid_2"><b>&bull; &bull; &bull;</b></div>
+<div class="post_title grid_3 omega">
+{% if next == -1 %}
+next page <img src="/media/fs/img/right_closed.png"/>
+{% else %}
+{% block nextlink %}<a href="{% url index %}?p={{next}}">{% endblock nextlink %}next page <img src="/media/fs/img/right.png"/></a>
+{% endif %}</div>
+{% endblock content %}
