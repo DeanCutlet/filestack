@@ -47,7 +47,7 @@ def cleanContent(content):
   Returns:
     The cleaned string.
   '''
-  ret = content.replace("\n\n", "<br class='hr_0'/>")
+  ret = content.replace("\n\n", "<hr class='hr_0' style='visibility:hidden;'/>")
   return ret
 
 def getCatTags(element):
