@@ -56,6 +56,10 @@ blockquote {
   margin: 1em 40px;
 }
 
+ul, ol {
+  margin: 1em 40px;
+}
+
 .highlight {
   color: #279;
 }
