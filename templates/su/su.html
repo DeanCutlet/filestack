@@ -88,30 +88,30 @@ Actions: <a href="/">View Site</a> &bull; <a href="#" id="upload_file">Upload a 
 <div class="grid_6">
 <div class="grid_6 hr_0 ena">
 <em style="float:right;"><a href="{% url su_new type='page' %}">+new</a></em>Pages:
-<ul class="no_bull top_bar">
+<ul class="no_bull top_bar no_margin">
 {% for page in pages %}
 <li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
-<div style="float:right;">{% if page.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ page.date_short }}</div>{% endif %} {% if page.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<div style="float:right;">{% if page.date > now %}<div class="su_date">{{ page.date_short }}</div>{% endif %} {% if page.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
 <a href="{% url su_edit slug=page.name %}" id="{{page.name}}">{{page.title}}</a></li>
 {% endfor %}
 </ul>
 </div>
 <div class="grid_6 hr_0 ena">
 <em style="float:right;"><a href="{% url su_new type='post' %}">+new</a></em>Posts:
-<ul class="no_bull top_bar">
+<ul class="no_bull top_bar no_margin">
 {% for post in posts %}
 <li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
-<div style="float:right;">{% if post.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ post.date_short }}</div>{% endif %} {% if post.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<div style="float:right;">{% if post.date > now %}<div class="su_date">{{ post.date_short }}</div>{% endif %} {% if post.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
 <a href="{% url su_edit slug=post.name %}" id="{{post.name}}">{{post.title}}</a></li>
 {% endfor %}
 </ul>
 </div>
 <div class="grid_6 hr_0 ena">
 Trash:
-<ul class="no_bull top_bar">
+<ul class="no_bull top_bar no_margin">
 {% for piece in trash %}
 <li {% if forloop.counter|divisibleby:2 %}style="background-color:#ccc;"{% endif %}>
-<div style="float:right;">{% if piece.date > now %}<div style="font-size:0.8em;margin-right:10px;display:inline;">{{ piece.date_short }}</div>{% endif %} {% if piece.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
+<div style="float:right;">{% if piece.date > now %}<div class="su_date">{{ piece.date_short }}</div>{% endif %} {% if piece.status == 'visible' %}O{% else %}<span style="color:#999;">&Oslash;</span>{% endif %}</div>
 <a href="{% url su_edit slug=piece.name %}" id="{{piece.name}}">{{piece.title}}</a></li>
 {% endfor %}
 </ul>

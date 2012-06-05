@@ -135,6 +135,14 @@ ul, ol {
   padding:2px 0px;
   font-size:1.2em;
 }
+.su_date {
+  font-size:0.8em;
+  margin-right:10px;
+  display:inline;
+}
+.no_margin {
+  margin:0px;
+}
 .no_bull {
   list-style-type:none;
 }
