@@ -79,4 +79,4 @@ Filestack is under the Apache 2.0 license.  See LICENSE for more information.
 Contact:
 --------
 
-Questions or comments?  Contact mwest1910@gmail.com for more information.
+Questions or comments?  Contact mwest1910(at)gmail.com for more information.
